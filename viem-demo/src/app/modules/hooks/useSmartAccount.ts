@@ -77,9 +77,9 @@ export function useSmartAccount() {
             // These are the default values we use
                 webAuthnOptions: {
                 authenticatorSelection: {
-                authenticatorAttachment: "cross-platform", //coinbase
+                authenticatorAttachment: undefined, //coinbase
                 residentKey: "preferred", //required
-                userVerification: "preferred", //coinbase
+                userVerification: undefined, //coinbase
                 },
                 } as WebAuthnOptions,
                 //passKeyName: "Cometh Connect",
