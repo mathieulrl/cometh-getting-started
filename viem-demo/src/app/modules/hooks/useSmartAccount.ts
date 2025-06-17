@@ -78,7 +78,7 @@ export function useSmartAccount() {
                 webAuthnOptions: {
                 authenticatorSelection: {
                 authenticatorAttachment: undefined, //coinbase
-                residentKey: "required", //required
+                residentKey: "preferred", //required
                 userVerification: "discouraged", //coinbase
                 },
                 } as WebAuthnOptions,
