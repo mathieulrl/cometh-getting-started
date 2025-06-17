@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@coinbase/wallet-sdk": {
+      "version": "4.3.2",
+      "signature": "c37568e2e2902c0204ce651bf335f824",
+      "file": true
+    }
+  }
+}

@@ -4,11 +4,14 @@ import {
     createComethPaymasterClient,
     createSafeSmartAccount,
     createSmartAccountClient,
+    type webAuthnOptions as WebAuthnOptions,
 } from "@cometh/connect-sdk-4337";
 import { useState } from "react";
 import { http, type Hex, type PublicClient, createPublicClient } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { arbitrumSepolia } from "viem/chains";
+
+import { CoinbaseWalletSDK } from "@coinbase/wallet-sdk";
 
 export function useSmartAccount() {
     const [isConnecting, setIsConnecting] = useState(false);
@@ -32,8 +35,30 @@ export function useSmartAccount() {
         if (!apiKey) throw new Error("API key not found");
         if (!bundlerUrl) throw new Error("Bundler Url not found");
 
+        console.log("Connecting to smart account...");
+
         setIsConnecting(true);
         try {
+
+
+//                         const sdk = new CoinbaseWalletSDK({
+//      appName: 'SDK Playground',
+//    });
+
+//    const provider = sdk.makeWeb3Provider();
+//    const addresses = await provider.request({
+//   method: 'eth_requestAccounts',
+// }) as string[];
+
+// await provider.request({
+//   method: 'personal_sign',
+//   params: [
+//     `0x${Buffer.from('test message', 'utf8').toString('hex')}`,
+//     addresses[0],
+//   ],
+// });
+
+
             const localStorageAddress = window.localStorage.getItem(
                 "walletAddress"
             ) as Hex;
@@ -47,27 +72,40 @@ export function useSmartAccount() {
                 },
             }) as PublicClient;
 
-            const ownerPK = process.env.NEXT_PUBLIC_OWNER_PK;
-            const owner = privateKeyToAccount(ownerPK as Hex);
-
             let smartAccount;
+
+            const comethSignerConfig = {
+            // These are the default values we use
+                webAuthnOptions: {
+                authenticatorSelection: {
+                authenticatorAttachment: "cross-platform", //coinbase
+                residentKey: undefined, //required
+                userVerification: undefined, //coinbase
+                },
+                } as WebAuthnOptions,
+                //passKeyName: "Cometh Connect",
+                disableEoaFallback: false
+            }
+
 
             if (localStorageAddress) {
                 smartAccount = await createSafeSmartAccount({
                     apiKey,
                     chain: arbitrumSepolia,
                     publicClient,
-                    signer: owner,
                     smartAccountAddress: localStorageAddress,
+                    comethSignerConfig,
                 });
             } else {
+                console.log("&&&&&1")
                 smartAccount = await createSafeSmartAccount({
                     apiKey,
                     chain: arbitrumSepolia,
-                    signer: owner,
-
                     publicClient,
+                    comethSignerConfig,
                 });
+
+                console.log("&&&&&2", smartAccount.address);
                 window.localStorage.setItem(
                     "walletAddress",
                     smartAccount.address
@@ -95,6 +133,10 @@ export function useSmartAccount() {
                     },
                 },
             });
+
+
+
+
 
             setSmartAccount(smartAccountClient);
             setIsConnected(true);

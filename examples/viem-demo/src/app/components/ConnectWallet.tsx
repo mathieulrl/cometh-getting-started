@@ -42,6 +42,8 @@ function ConnectWallet({
         }
     };
 
+    console.log(connectionError);
+
     return (
         <>
             {!connectionError ? (
