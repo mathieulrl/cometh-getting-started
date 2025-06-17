@@ -77,8 +77,8 @@ export function useSmartAccount() {
             // These are the default values we use
                 webAuthnOptions: {
                 authenticatorSelection: {
-                authenticatorAttachment: "platform", //coinbase
-                residentKey: "discouraged", //required
+                authenticatorAttachment: "cross-platform", //coinbase
+                residentKey: "preferred", //required
                 userVerification: "preferred", //coinbase
                 },
                 } as WebAuthnOptions,
