@@ -11,7 +11,6 @@ import { http, type Hex, type PublicClient, createPublicClient } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { arbitrumSepolia } from "viem/chains";
 
-import { CoinbaseWalletSDK } from "@coinbase/wallet-sdk";
 
 export function useSmartAccount() {
     const [isConnecting, setIsConnecting] = useState(false);
@@ -78,9 +77,9 @@ export function useSmartAccount() {
             // These are the default values we use
                 webAuthnOptions: {
                 authenticatorSelection: {
-                authenticatorAttachment: "cross-platform", //coinbase
-                residentKey: undefined, //required
-                userVerification: undefined, //coinbase
+                authenticatorAttachment: "platform", //coinbase
+                residentKey: "required", //required
+                userVerification: "preferred", //coinbase
                 },
                 } as WebAuthnOptions,
                 //passKeyName: "Cometh Connect",
