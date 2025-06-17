@@ -79,7 +79,7 @@ export function useSmartAccount() {
                 authenticatorSelection: {
                 authenticatorAttachment: undefined, //coinbase
                 residentKey: "required", //required
-                userVerification: undefined, //coinbase
+                userVerification: "discouraged", //coinbase
                 },
                 } as WebAuthnOptions,
                 //passKeyName: "Cometh Connect",
