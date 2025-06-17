@@ -77,9 +77,9 @@ export function useSmartAccount() {
             // These are the default values we use
                 webAuthnOptions: {
                 authenticatorSelection: {
-                authenticatorAttachment: undefined, //coinbase
-                residentKey: "discouraged", //required
-                userVerification: "discouraged", //coinbase
+                authenticatorAttachment: "platform", //coinbase
+                residentKey: "preferred", //required
+                userVerification: "preferred", //coinbase
                 },
                 } as WebAuthnOptions,
                 //passKeyName: "Cometh Connect",
@@ -93,7 +93,7 @@ export function useSmartAccount() {
                     chain: arbitrumSepolia,
                     publicClient,
                     smartAccountAddress: localStorageAddress,
-                    comethSignerConfig,
+                  //  comethSignerConfig,
                 });
             } else {
                 console.log("&&&&&1")
@@ -101,7 +101,7 @@ export function useSmartAccount() {
                     apiKey,
                     chain: arbitrumSepolia,
                     publicClient,
-                    comethSignerConfig,
+                  //  comethSignerConfig,
                 });
 
                 console.log("&&&&&2", smartAccount.address);
