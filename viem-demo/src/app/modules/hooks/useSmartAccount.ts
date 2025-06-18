@@ -92,7 +92,7 @@ console.log("Creating WebAuthn credential...");
                 authenticatorSelection: {
                     residentKey: 'preferred',
                     requireResidentKey: false,
-                    userVerification: 'required',
+                    userVerification: 'preferred',
                     },
                 } as WebAuthnOptions,
                 //passKeyName: "Cometh Connect",
