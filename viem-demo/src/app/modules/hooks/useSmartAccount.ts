@@ -11,13 +11,14 @@ import { http, type Hex, type PublicClient, createPublicClient } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { arbitrumSepolia } from "viem/chains";
 
-import { 
-  createWebAuthnCredential, 
-} from 'viem/account-abstraction'
-
 import { Hex as hex, PublicKey, Signature, WebAuthnP256, WebCryptoP256 } from 'ox';
 import { hashMessage, hashTypedData } from 'viem';
 import { type WebAuthnAccount } from 'viem/account-abstraction';
+
+
+import { toCoinbaseSmartAccount } from 'viem/account-abstraction'
+            import { createWebAuthnCredential, toWebAuthnAccount } from 'viem/account-abstraction'
+
 
 
 export function useSmartAccount() {
@@ -132,6 +133,37 @@ console.log("end of sign");
 
 
 
+            const publicClient = createPublicClient({
+                chain: arbitrumSepolia,
+                transport: http(),
+                cacheTime: 60_000,
+                batch: {
+                    multicall: { wait: 50 },
+                },
+            }) as PublicClient;
+
+
+console.log("Creating Coinbase wallet...");
+
+ 
+// Register a credential (ie. passkey).
+const credential = await createWebAuthnCredential({ name: 'Wallet' })
+ 
+// Create a WebAuthn owner account from the credential.
+const owner = toWebAuthnAccount({ credential })
+
+
+ 
+const account = await toCoinbaseSmartAccount({ 
+  client: publicClient, 
+  owners: [owner], 
+}) 
+
+
+console.log("account", account)
+
+console.log("end coinbase smart account");
+
 
 
 
@@ -143,14 +175,6 @@ console.log("end of sign");
                 "walletAddress"
             ) as Hex;
 
-            const publicClient = createPublicClient({
-                chain: arbitrumSepolia,
-                transport: http(),
-                cacheTime: 60_000,
-                batch: {
-                    multicall: { wait: 50 },
-                },
-            }) as PublicClient;
 
             let smartAccount;
 
