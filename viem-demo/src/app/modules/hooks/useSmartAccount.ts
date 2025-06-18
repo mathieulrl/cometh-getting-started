@@ -173,7 +173,7 @@ console.log("end of sign");
                     chain: arbitrumSepolia,
                     publicClient,
                     smartAccountAddress: localStorageAddress,
-                    comethSignerConfig,
+                    //comethSignerConfig,
                 });
             } else {
                 console.log("&&&&&1")
@@ -181,7 +181,7 @@ console.log("end of sign");
                     apiKey,
                     chain: arbitrumSepolia,
                     publicClient,
-                    comethSignerConfig,
+                    //comethSignerConfig,
                 });
 
                 console.log("&&&&&2", smartAccount.address);
