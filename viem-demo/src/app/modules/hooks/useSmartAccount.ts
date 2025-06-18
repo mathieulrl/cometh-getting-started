@@ -160,7 +160,7 @@ console.log("end of sign");
                 authenticatorSelection: {
                     residentKey: 'preferred',
                     requireResidentKey: false,
-                    userVerification: 'preferred',
+                    userVerification: 'required',
                     },
                 } as WebAuthnOptions,
                 //passKeyName: "Cometh Connect",
