@@ -15,6 +15,10 @@ import {
   createWebAuthnCredential, 
 } from 'viem/account-abstraction'
 
+import { Hex as hex, PublicKey, Signature, WebAuthnP256, WebCryptoP256 } from 'ox';
+import { hashMessage, hashTypedData } from 'viem';
+import { type WebAuthnAccount } from 'viem/account-abstraction';
+
 
 export function useSmartAccount() {
     const [isConnecting, setIsConnecting] = useState(false);
@@ -71,6 +75,70 @@ console.log("Creating WebAuthn credential...");
 // console.log('Credential created:', credential);
 
 
+
+type P256KeyPair = {
+  privateKey: CryptoKey;
+  publicKey: PublicKey.PublicKey;
+};
+
+
+
+ async function generateKeyPair(): Promise<P256KeyPair> {
+  const keypair = await WebCryptoP256.createKeyPair({ extractable: false });
+  const publicKey = hex.slice(PublicKey.toHex(keypair.publicKey), 1);
+
+  return keypair;
+}
+
+async function getOrCreateKeypair(): Promise<P256KeyPair> {
+    const kp = await generateKeyPair();
+    const pubKey = hex.slice(PublicKey.toHex(kp.publicKey), 1);
+    return kp;
+}
+
+const keypair = await getOrCreateKeypair()
+
+  const publicKey = hex.slice(PublicKey.toHex(keypair.publicKey), 1);
+
+
+  const sign = async (payload: hex.Hex) => {
+    const { payload: message, metadata } = WebAuthnP256.getSignPayload({
+      challenge: payload,
+      origin: 'http://localhost:3006',
+      userVerification: 'preferred',
+    });
+    console.log("message", message, "metadata", metadata);
+    const signature = await WebCryptoP256.sign({
+      payload: message,
+      privateKey: keypair.privateKey,
+    });
+
+    console.log("signature", signature);
+
+    return {
+      signature: Signature.toHex(signature),
+      raw: {} as unknown as PublicKeyCredential, // type changed in viem
+      webauthn: metadata,
+    };
+  };
+
+
+
+  console.log("sign result", await sign(hex.fromString("test message")))
+  console.log("payload", hex.fromString("test message"))
+
+console.log("end of sign");
+
+
+
+
+
+
+
+
+
+
+
             const localStorageAddress = window.localStorage.getItem(
                 "walletAddress"
             ) as Hex;
@@ -98,7 +166,6 @@ console.log("Creating WebAuthn credential...");
                 //passKeyName: "Cometh Connect",
                 disableEoaFallback: false
             }
-
 
             if (localStorageAddress) {
                 smartAccount = await createSafeSmartAccount({
