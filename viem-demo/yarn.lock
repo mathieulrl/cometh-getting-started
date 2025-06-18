@@ -141,10 +141,10 @@
     viem "^2.27.2"
     zustand "5.0.3"
 
-"@cometh/connect-sdk-4337@1.0.12-dev.1":
-  version "1.0.12-dev.1"
-  resolved "https://registry.yarnpkg.com/@cometh/connect-sdk-4337/-/connect-sdk-4337-1.0.12-dev.1.tgz#0c3fa3f29d7d80a668da4d7c81cc52efb14d28c6"
-  integrity sha512-IHbEm9ic3d0uSC7Wayz0t2rUkE31esBbN8HK5YXNxEBhNFfxTHzpplBLr0j4NppMonRtHt8gQ7Y56ueJoCFS3g==
+"@cometh/connect-sdk-4337@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@cometh/connect-sdk-4337/-/connect-sdk-4337-1.0.11.tgz#76d6326692ae4ada610cf66c0b428ceeb01d41c0"
+  integrity sha512-vfv3/dopi9rPI31RlXOgBmu1DSegACMToj3v6iYiVr+q7V7r2HN20BKrGkLNwkvsvcV6bcQAeKO1qrLrBitQYg==
   dependencies:
     "@noble/curves" "^1.6.0"
     "@rhinestone/module-sdk" "^0.2.3"

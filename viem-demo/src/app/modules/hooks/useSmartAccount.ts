@@ -77,58 +77,58 @@ console.log("Creating WebAuthn credential...");
 
 
 
-type P256KeyPair = {
-  privateKey: CryptoKey;
-  publicKey: PublicKey.PublicKey;
-};
+// type P256KeyPair = {
+//   privateKey: CryptoKey;
+//   publicKey: PublicKey.PublicKey;
+// };
 
 
 
- async function generateKeyPair(): Promise<P256KeyPair> {
-  const keypair = await WebCryptoP256.createKeyPair({ extractable: false });
-  const publicKey = hex.slice(PublicKey.toHex(keypair.publicKey), 1);
+//  async function generateKeyPair(): Promise<P256KeyPair> {
+//   const keypair = await WebCryptoP256.createKeyPair({ extractable: false });
+//   const publicKey = hex.slice(PublicKey.toHex(keypair.publicKey), 1);
 
-  return keypair;
-}
+//   return keypair;
+// }
 
-async function getOrCreateKeypair(): Promise<P256KeyPair> {
-    const kp = await generateKeyPair();
-    const pubKey = hex.slice(PublicKey.toHex(kp.publicKey), 1);
-    return kp;
-}
+// async function getOrCreateKeypair(): Promise<P256KeyPair> {
+//     const kp = await generateKeyPair();
+//     const pubKey = hex.slice(PublicKey.toHex(kp.publicKey), 1);
+//     return kp;
+// }
 
-const keypair = await getOrCreateKeypair()
+// const keypair = await getOrCreateKeypair()
 
-  const publicKey = hex.slice(PublicKey.toHex(keypair.publicKey), 1);
-
-
-  const sign = async (payload: hex.Hex) => {
-    const { payload: message, metadata } = WebAuthnP256.getSignPayload({
-      challenge: payload,
-      origin: 'http://localhost:3006',
-      userVerification: 'preferred',
-    });
-    console.log("message", message, "metadata", metadata);
-    const signature = await WebCryptoP256.sign({
-      payload: message,
-      privateKey: keypair.privateKey,
-    });
-
-    console.log("signature", signature);
-
-    return {
-      signature: Signature.toHex(signature),
-      raw: {} as unknown as PublicKeyCredential, // type changed in viem
-      webauthn: metadata,
-    };
-  };
+//   const publicKey = hex.slice(PublicKey.toHex(keypair.publicKey), 1);
 
 
+//   const sign = async (payload: hex.Hex) => {
+//     const { payload: message, metadata } = WebAuthnP256.getSignPayload({
+//       challenge: payload,
+//       origin: 'http://localhost:3006',
+//       userVerification: 'preferred',
+//     });
+//     console.log("message", message, "metadata", metadata);
+//     const signature = await WebCryptoP256.sign({
+//       payload: message,
+//       privateKey: keypair.privateKey,
+//     });
 
-  console.log("sign result", await sign(hex.fromString("test message")))
-  console.log("payload", hex.fromString("test message"))
+//     console.log("signature", signature);
 
-console.log("end of sign");
+//     return {
+//       signature: Signature.toHex(signature),
+//       raw: {} as unknown as PublicKeyCredential, // type changed in viem
+//       webauthn: metadata,
+//     };
+//   };
+
+
+
+//   console.log("sign result", await sign(hex.fromString("test message")))
+//   console.log("payload", hex.fromString("test message"))
+
+// console.log("end of sign");
 
 
 
@@ -143,26 +143,26 @@ console.log("end of sign");
             }) as PublicClient;
 
 
-console.log("Creating Coinbase wallet...");
+// console.log("Creating Coinbase wallet...");
 
  
-// Register a credential (ie. passkey).
-const credential = await createWebAuthnCredential({ name: 'Wallet' })
+// // Register a credential (ie. passkey).
+// const credential = await createWebAuthnCredential({ name: 'Wallet' })
  
-// Create a WebAuthn owner account from the credential.
-const owner = toWebAuthnAccount({ credential })
+// // Create a WebAuthn owner account from the credential.
+// const owner = toWebAuthnAccount({ credential })
 
 
  
-const account = await toCoinbaseSmartAccount({ 
-  client: publicClient, 
-  owners: [owner], 
-}) 
+// const account = await toCoinbaseSmartAccount({ 
+//   client: publicClient, 
+//   owners: [owner], 
+// }) 
 
 
-console.log("account", account)
+// console.log("account", account)
 
-console.log("end coinbase smart account");
+// console.log("end coinbase smart account");
 
 
 
