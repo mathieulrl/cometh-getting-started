@@ -11,6 +11,10 @@ import { http, type Hex, type PublicClient, createPublicClient } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { arbitrumSepolia } from "viem/chains";
 
+import { 
+  createWebAuthnCredential, 
+} from 'viem/account-abstraction'
+
 
 export function useSmartAccount() {
     const [isConnecting, setIsConnecting] = useState(false);
@@ -57,6 +61,15 @@ export function useSmartAccount() {
 //   ],
 // });
 
+console.log("Creating WebAuthn credential...");
+ 
+// // Register a credential (ie. passkey). 
+// const credential = await createWebAuthnCredential({ 
+//   name: 'Example', 
+// }) 
+
+// console.log('Credential created:', credential);
+
 
             const localStorageAddress = window.localStorage.getItem(
                 "walletAddress"
@@ -77,10 +90,10 @@ export function useSmartAccount() {
             // These are the default values we use
                 webAuthnOptions: {
                 authenticatorSelection: {
-                authenticatorAttachment: "platform", //coinbase
-                residentKey: "preferred", //required
-                userVerification: "preferred", //coinbase
-                },
+                    residentKey: 'preferred',
+                    requireResidentKey: false,
+                    userVerification: 'required',
+                    },
                 } as WebAuthnOptions,
                 //passKeyName: "Cometh Connect",
                 disableEoaFallback: false
@@ -93,7 +106,7 @@ export function useSmartAccount() {
                     chain: arbitrumSepolia,
                     publicClient,
                     smartAccountAddress: localStorageAddress,
-                  //  comethSignerConfig,
+                    comethSignerConfig,
                 });
             } else {
                 console.log("&&&&&1")
@@ -101,7 +114,7 @@ export function useSmartAccount() {
                     apiKey,
                     chain: arbitrumSepolia,
                     publicClient,
-                  //  comethSignerConfig,
+                    comethSignerConfig,
                 });
 
                 console.log("&&&&&2", smartAccount.address);
